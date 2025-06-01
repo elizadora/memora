@@ -1,10 +1,9 @@
-import Home from "./pages/Home";
-import SignHub from "./pages/Access";
+import Dashboard from "./pages/Dashboard"
 
 function App() {
   return (
     <div className="bg-platium min-h-screen">
-      <SignHub />
+      <Dashboard />
     </div>
      
  )
