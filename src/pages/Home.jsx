@@ -1,3 +1,4 @@
+import BenefitsSection from "../components/BenefitsSection";
 import FeaturesSection from "../components/FeaturesSection";
 import Footer from "../components/Footer";
 import HeroSection from "../components/HeroSection";
@@ -10,6 +11,7 @@ export default function Home() {
                 <main>
                     <HeroSection />
                     <FeaturesSection />
+                    <BenefitsSection />
                 </main>
                 
             <Footer />
