@@ -1,12 +1,14 @@
 import { ArrowLeft } from "flowbite-react-icons/outline";
-import Register from "../components/Login";
+import Login from "../components/Login"
+import Register from "../components/Register";
 
 export default function Access() {
     return (
         <>
-            <p className="flex w-full items-center cursor-pointer font-open-sans pt-3.5 pl-0.5 text-oxford-blue font-bold gap-2 text-2xl"><ArrowLeft className="w-10 h-10" /> Voltar </p>
+            <p className="w-full cursor-pointer font-open-sans pt-2.5 pl-2.5 text-oxford-blue font-bold text-2xl"><ArrowLeft className="w-15 h-15" /> </p>
             <main className="flex justify-center items-center h-screen">
                 <Register />
+                {/* <Login /> */}
             </main>
         </>
     )
