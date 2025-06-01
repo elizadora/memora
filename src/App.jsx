@@ -1,15 +1,10 @@
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <main className="bg-platium w-full h-screen">
-          
-      </main>
-      <Footer />
-    </>
+    <div className="bg-platium min-h-screen">
+      <Home />
+    </div>
      
  )
 }
