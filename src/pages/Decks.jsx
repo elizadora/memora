@@ -6,9 +6,9 @@ import { Search } from "flowbite-react-icons/outline";
 
 export default function Decks() {
     return (
-        <>
+        <div className="flex flex-col min-h-screen gap-20">
             <NavbarLogged />
-            <main className="flex justify-center gap-10 flex-wrap">
+            <main className="flex justify-center gap-20 flex-wrap">
                 <div className="mt-8">
                     <div className="relative">
                         <input type="text" className="pl-10 py-2 w-sm border-2 border-gray-400 lg:w-2xl rounded-3xl bg-white-smoke" placeholder="Ex: Deck Estudo" />
@@ -32,6 +32,6 @@ export default function Decks() {
                 </div>
             </main>
             <Footer />
-        </>
+        </div>
     )
 }

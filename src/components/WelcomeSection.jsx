@@ -3,7 +3,7 @@ import welcomeImage from '../assets/welcomeImage.svg';
 
 export default function WelcomeSection() {
     return (
-        <section className="flex mt-28 lg:justify-between lg:px-10 lg:flex-row flex-col items-center lg:items-start gap-10 mb-10 px-2">
+        <section className="flex mt-20 lg:justify-between lg:px-10 lg:flex-row flex-col items-center lg:items-start gap-10 mb-10 px-2">
             <div className="flex flex-col md:w-xl gap-4 items-center text-center lg:text-left">
                 <h3 className="text-oxford-blue md:text-4xl text-3xl font-medium font-roboto-slab">Domine qualquer assunto com flashcards inteligentes!</h3>
                 <p className="lg:text-justify font-open-sans md:text-2xl text-xl text-chacoal">Crie, memorize e revise de forma eficiente, o segredo para aprender mais em menos tempo.</p>

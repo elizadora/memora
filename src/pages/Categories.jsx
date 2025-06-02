@@ -4,9 +4,9 @@ import NavbarLogged from "../components/NavbarLogged";
 
 export default function Categories() {
     return (
-        <>
+        <div className="flex flex-col min-h-screen gap-20">
             <NavbarLogged />
-            <main className="flex justify-center flex-wrap gap-10">
+            <main className="flex justify-center flex-wrap gap-30">
                 <select className="bg-white-smoke text-oxford-blue lg:w-xl w-7/10 float-end py-2 px-3 mt-5 rounded-3xl">
                         <option>Categoria 1</option>
                 </select>
@@ -21,6 +21,6 @@ export default function Categories() {
                 </div>
             </main>
             <Footer />
-        </>
+        </div>
     )
 }
