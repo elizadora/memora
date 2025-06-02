@@ -1,8 +1,12 @@
 import { UserCircle } from "flowbite-react-icons/solid";
 import Footer from "../components/Footer";
 import NavbarLogged from "../components/NavbarLogged";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 export default function Account() {
+    const [open, setOpen] = useState(false);
+
     return (
         <div className="flex flex-col min-h-screen gap-20">
             <NavbarLogged />
@@ -18,12 +22,13 @@ export default function Account() {
                         <input className="w-full bg-platium text-gray-500 p-2 rounded-md" type="text" placeholder="Texto" />
                         <div className="flex flex-col gap-3 w-full">
                             <button className="bg-rich-black text-white-smoke p-2 rounded-md hover:opacity-95 cursor-pointer">Editar</button>
-                            <button className="bg-crimson text-white-smoke p-2 rounded-md hover:opacity-95 cursor-pointer">Apagar Conta</button>
+                            <button type="button" className="bg-crimson text-white-smoke p-2 rounded-md hover:opacity-95 cursor-pointer" onClick={() => setOpen(true)}>Apagar Conta</button>
                         </div>
                     </form>
                 </div>
             </main>
             <Footer />
+            <Modal open={open} onClose={() => setOpen(false)}/>
         </div>
     );
 }

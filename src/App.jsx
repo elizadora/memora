@@ -9,9 +9,9 @@ function App() {
     <div className="bg-platium">
       {/* <Decks /> */}
       {/* <Categories /> */}
-      {/* <Account /> */}
+      <Account />
       {/* <Dashboard /> */}
-      <Access />
+      {/* <Access /> */}
     </div>
      
  )
