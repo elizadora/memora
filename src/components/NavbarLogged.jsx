@@ -4,8 +4,7 @@ export default function NavbarLogged() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     return (
-
-        <header className="flex justify-between items-center bg-oxford-blue text-platium drop-shadow-md py-6 px-8 lg:px-10 font-roboto-slab">
+        <header className="flex justify-between items-center bg-oxford-blue z-10 text-platium drop-shadow-md py-6 px-8 lg:px-10 font-roboto-slab">
             <h1 className="font-bold text-[28px]">MEMORA</h1>
             <div className="hidden lg:flex items-center gap-7 w-1/3 font-medium">
                 <a>Home</a>
