@@ -1,20 +1,14 @@
-import Access from "./pages/Access"
-import Account from "./pages/Account"
-import Categories from "./pages/Categories"
-import Dashboard from "./pages/Dashboard"
-import Decks from "./pages/Decks"
+import { BrowserRouter } from "react-router-dom"
+import AppRoutes from "./routes"
 
 function App() {
   return (
-    <div className="bg-platium">
-      {/* <Decks /> */}
-      {/* <Categories /> */}
-      <Account />
-      {/* <Dashboard /> */}
-      {/* <Access /> */}
-    </div>
-     
- )
+    <BrowserRouter>
+      <div className="bg-platium">
+        <AppRoutes />
+      </div>
+    </BrowserRouter>
+  )
 }
 
 export default App

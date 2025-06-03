@@ -8,7 +8,7 @@ export default function Login() {
                 <img src={registerImage} className="max-w-full h-[400px] object-contain" alt="Login" />
             </div>
             {/* Forms */}
-            <div className="bg-oxford-blue md:rounded-r-3xl md:rounded-l-none rounded-3xl text-center text-white-smoke flex flex-col items-center lg:w-1/2 w-full">
+            <div className="bg-oxford-blue lg:rounded-r-3xl lg:rounded-l-none rounded-3xl text-center text-white-smoke flex flex-col items-center lg:w-1/2 w-full">
                 <div className="p-10">
                     <p className="text-3xl font-roboto-slab">Acesse sua conta</p>
                     <p className="text-xl font-open-sans text-platium">Aprender nunca foi tão fácil</p>
