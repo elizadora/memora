@@ -1,7 +1,14 @@
 import registerImage from '../assets/registerImage.svg';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
+
+    function handleLogin(event){
+        event.preventDefault();
+        navigate('/dashboard');
+    }
+
     return (
         <div className="md:bg-white-smoke flex lg:w-5xl rounded-3xl w-9/10">
             <div className="lg:flex justify-center items-center w-1/2 p-10 hidden">
@@ -16,10 +23,10 @@ export default function Login() {
                 <form className=" w-7/10 flex flex-col gap-6">
                     <input className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="email" placeholder="Digite seu email" />
                     <input className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="password" placeholder="Digite sua senha" />
-                    <button className="bg-orange text-oxford-blue p-2 mt-2 uppercase font-roboto-slab font-medium rounded-md cursor-pointer">entrar</button>
+                    <button  onClick={handleLogin} className="bg-orange hover:opacity-95 text-oxford-blue p-2 mt-2 uppercase font-roboto-slab font-medium rounded-md cursor-pointer">entrar</button>
                 </form>
 
-                <p className="pt-4 font-open-sans pb-4">Não tem conta? <a href="#" className="text-orange">Cadastre-se</a> </p>
+                <p className="pt-4 font-open-sans pb-4">Não tem conta? <Link to="/register" className="text-orange">Cadastre-se</Link> </p>
 
             </div>
         </div>
