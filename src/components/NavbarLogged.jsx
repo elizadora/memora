@@ -19,7 +19,7 @@ export default function NavbarLogged() {
             </svg>
 
             <div className={`absolute lg:hidden top-20 left-0 w-full bg-oxford-blue transform transition-transform flex items-center flex-col gap-7 p-10
-        ${isMenuOpen ? "opacity-100" : "opacity-0"}`} style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}>
+        ${isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`} style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}>
 
                 <Link to="/dashboard" className="transition duration-300 ease-in hover:underline underline-offset-4">Home</Link>
                 <Link to="/decks" className="transition duration-300 ease-in hover:underline underline-offset-4">Decks</Link>

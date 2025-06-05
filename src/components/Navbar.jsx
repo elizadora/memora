@@ -25,7 +25,7 @@ export default function Navbar() {
       </svg>
       
       <div className={`absolute lg:hidden top-20 left-0 w-full bg-oxford-blue transform transition-transform flex items-center flex-col gap-7 p-10
-        ${isMenuOpen ? "opacity-100" : "opacity-0"}`} style={{transition: "transform 0.3s ease, opacity 0.3s ease"}}>
+        ${isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`} style={{transition: "transform 0.3s ease, opacity 0.3s ease"}}>
         <button onClick={handleLoginClick} className="w-52 rounded-xl border-2 border-orange px-10 py-2 cursor-pointer hover:bg-orange hover:text-oxford-blue transition ease-in duration-300">Entrar</button>
         <button onClick={handleRegisterClick} className="w-52 rounded-xl bg-orange px-10 py-2 cursor-pointer hover:opacity-95 text-oxford-blue transition ease-in duration-300">Criar Conta</button>
       </div>
