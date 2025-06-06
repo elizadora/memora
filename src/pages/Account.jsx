@@ -1,11 +1,9 @@
 import { UserCircle } from "flowbite-react-icons/solid";
-import Footer from "../components/Footer";
-import NavbarLogged from "../components/NavbarLogged";
 import { useContext } from "react";
 import { ModalContext } from "../context/ModalContext";
 
 export default function Account() {
-    const {openModal} = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
 
     function handleDelteAccount() {
         openModal(
@@ -19,8 +17,7 @@ export default function Account() {
 
 
     return (
-        <div className="flex flex-col min-h-screen gap-20">
-            <NavbarLogged />
+        <>
             <main className="flex justify-center items-center">
                 <div className="bg-white-smoke flex flex-col items-center p-10 rounded-md gap-10 md:w-1/3 max-w-9/10 shadow-md">
                     <div className="flex items-center justify-center w-full">
@@ -38,7 +35,6 @@ export default function Account() {
                     </form>
                 </div>
             </main>
-            <Footer />
-        </div>
+        </>
     );
 }

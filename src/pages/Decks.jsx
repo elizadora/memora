@@ -1,13 +1,10 @@
-import Footer from "../components/Footer";
-import NavbarLogged from "../components/NavbarLogged";
 import DeckCard from "../components/DeckCard";
 import { Search } from "flowbite-react-icons/outline";
 
 
 export default function Decks() {
     return (
-        <div className="flex flex-col min-h-screen gap-20">
-            <NavbarLogged />
+        <>
             <main className="flex justify-center gap-20 flex-wrap">
                 <div className="mt-8">
                     <div className="relative">
@@ -22,16 +19,15 @@ export default function Decks() {
                     </select>
                 </div>
                 <div className="flex flex-wrap gap-10  items-center justify-evenly flex-col lg:flex-row mb-10">
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
                 </div>
             </main>
-            <Footer />
-        </div>
+        </>
     )
 }

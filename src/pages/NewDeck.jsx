@@ -15,8 +15,7 @@ export default function NewDeck() {
     ];
 
     return (
-        <div className="flex flex-col min-h-screen gap-20">
-            <NavbarLogged />
+        <>
             <main className="flex justify-center items-center">
                 {/* deck card - forms*/}
                 <div className="flex flex-col  gap-7 lg:w-1/2 bg-white-smoke shadow-md p-10 rounded-md w-9/10">
@@ -32,7 +31,6 @@ export default function NewDeck() {
                     </div>
                 </div>
             </main>
-            <Footer />
-        </div>
+        </>
     )
 }

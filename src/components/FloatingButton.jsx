@@ -7,11 +7,11 @@ export default function FloatingButton({ open, setOpen }) {
 
     function handleNewDeck(event){
         event.preventDefault();
-        navigate('/new-deck')
+        navigate('new-deck')
     }
 
     return (
-        <div className="right-4 bottom-4 fixed flex flex-col items-end gap-2">
+        <div className="right-10 bottom-10 fixed flex flex-col items-end gap-2">
             <div className={`flex flex-col items-end gap-2 transition-all duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <button onClick={handleNewDeck} className="cursor-pointer flex items-center gap-2 bg-orange text-oxford-blue px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90">
                     <span>Criar Deck</span>
