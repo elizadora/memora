@@ -1,8 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ModalContext } from "../context/ModalContext";
 
 export default function NavbarLogged() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { openModal } = useContext(ModalContext);
+    
+
+    function handleLogout(){
+        openModal(
+            "Sair",
+            "Tem certeza que deseja sair?",
+            () => {
+                console.log("Usuário deslogado");
+            }
+        );
+    }
+    
 
     return (
         <header className="flex justify-between items-center bg-oxford-blue z-10 text-platium drop-shadow-md py-6 px-8 lg:px-10 font-roboto-slab">
@@ -12,7 +26,7 @@ export default function NavbarLogged() {
                 <Link to="/decks" className="transition duration-300 ease-in hover:underline underline-offset-4">Decks</Link>
                 <Link to="/categories" className="transition duration-300 ease-in hover:underline underline-offset-4">Categorias</Link>
                 <Link to="/account" className="transition duration-300 ease-in hover:underline underline-offset-4">Conta</Link>
-                <button className="flex-1 rounded-xl text-base bg-orange px-8 py-2 cursor-pointer hover:opacity-90 text-oxford-blue transition ease-in duration-300">Sair</button>
+                <button onClick={handleLogout} className="flex-1 rounded-xl text-base bg-orange px-8 py-2 cursor-pointer hover:opacity-90 text-oxford-blue transition ease-in duration-300">Sair</button>
             </div>
             <svg className="w-10 h-10 cursor-pointer lg:hidden block" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14" />
@@ -25,9 +39,8 @@ export default function NavbarLogged() {
                 <Link to="/decks" className="transition duration-300 ease-in hover:underline underline-offset-4">Decks</Link>
                 <Link to="/categories" className="transition duration-300 ease-in hover:underline underline-offset-4">Categorias</Link>
                 <Link to="/account" className="transition duration-300 ease-in hover:underline underline-offset-4">Conta</Link>
-                <button className="w-40 rounded-xl bg-orange px-10 py-2 cursor-pointer hover:opacity-95 text-oxford-blue transition ease-in duration-300">Sair</button>
+                <button onClick={handleLogout} className="w-40 rounded-xl bg-orange px-10 py-2 cursor-pointer hover:opacity-95 text-oxford-blue transition ease-in duration-300">Sair</button>
             </div>
-
         </header>
     )
 }

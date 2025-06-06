@@ -1,11 +1,22 @@
 import { UserCircle } from "flowbite-react-icons/solid";
 import Footer from "../components/Footer";
 import NavbarLogged from "../components/NavbarLogged";
-import Modal from "../components/Modal";
-import { useState } from "react";
+import { useContext } from "react";
+import { ModalContext } from "../context/ModalContext";
 
 export default function Account() {
-    const [open, setOpen] = useState(false);
+    const {openModal} = useContext(ModalContext);
+
+    function handleDelteAccount() {
+        openModal(
+            "Apagar Conta",
+            "Tem certeza que deseja apagar sua conta? Esta ação não pode ser desfeita.",
+            () => {
+                console.log("Conta apagada");
+            }
+        );
+    }
+
 
     return (
         <div className="flex flex-col min-h-screen gap-20">
@@ -20,15 +31,14 @@ export default function Account() {
                         <input className="w-full bg-platium text-gray-500 p-2 rounded-md" type="text" placeholder="Texto" />
                         <input className="w-full bg-platium text-gray-500 p-2 rounded-md" type="text" placeholder="Texto" />
                         <input className="w-full bg-platium text-gray-500 p-2 rounded-md" type="text" placeholder="Texto" />
-                        <div className="flex flex-col gap-3 w-full">
+                        <div className="flex flex-col gap-3 w-full font-roboto-slab">
                             <button className="bg-rich-black text-white-smoke p-2 rounded-md hover:opacity-95 cursor-pointer">Editar</button>
-                            <button type="button" className="bg-crimson text-white-smoke p-2 rounded-md hover:opacity-95 cursor-pointer" onClick={() => setOpen(true)}>Apagar Conta</button>
+                            <button onClick={handleDelteAccount} type="button" className="bg-crimson text-white-smoke p-2 rounded-md hover:opacity-95 cursor-pointer">Apagar Conta</button>
                         </div>
                     </form>
                 </div>
             </main>
             <Footer />
-            <Modal open={open} onClose={() => setOpen(false)}/>
         </div>
     );
 }
