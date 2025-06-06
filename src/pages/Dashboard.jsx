@@ -8,7 +8,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <main>
+            <main >
                 <WelcomeSection />
                 <DecksSection />
                 <FloatingButton open={open} setOpen={setOpen} />

@@ -10,7 +10,7 @@ export default function Login() {
     }
 
     return (
-        <div className="md:bg-white-smoke flex lg:w-5xl rounded-3xl w-9/10">
+        <div className="md:bg-white-smoke flex lg:w-2/3 min-h-[533px] rounded-3xl w-9/10">
             <div className="lg:flex justify-center items-center w-1/2 p-10 hidden">
                 <img src={registerImage} className="max-w-full h-[400px] object-contain" alt="Login" />
             </div>
