@@ -1,11 +1,13 @@
 import CreatableSelect from "react-select/creatable";
-import Footer from "../components/Footer";
-import NavbarLogged from "../components/NavbarLogged";
 import { selectClassNamesCustom } from "../styles/createblaSelect";
 import { CirclePlus } from "flowbite-react-icons/outline";
+import { NewCardModal } from "../components/NewCardModal";
+import { useState } from "react";
 
 
 export default function NewDeck() {
+    const [newCardModal, setNewCardModal] = useState(false);
+
     const categoryOptions = [
         { value: 'matematica', label: 'Matemática' },
         { value: 'portugues', label: 'Português' },
@@ -26,10 +28,11 @@ export default function NewDeck() {
                         <CreatableSelect isMulti unstyled placeholder="Categoria" options={categoryOptions} classNames={selectClassNamesCustom} />
                     </div>
                     {/* card */}
-                    <div className="flex cursor-pointer items-center shadow-md border-rich-black border-2 justify-center bg-platium w-[262px] h-[309px] rounded-md">
+                    <div onClick={() => setNewCardModal(true) } className="flex cursor-pointer items-center shadow-md border-rich-black border-2 justify-center bg-platium w-[262px] h-[309px] rounded-md">
                         <CirclePlus className="w-12 h-12 text-rich-black" />
                     </div>
                 </div>
+                <NewCardModal isOpen={newCardModal} onClose={() => setNewCardModal(false)} onSubmit={() => {}} />
             </main>
         </>
     )
