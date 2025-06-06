@@ -1,51 +1,54 @@
-// routesConfig.jsx
 import { lazy } from "react";
-
-// const Home = lazy(() => import("../pages/Home"));
-// const Access = lazy(() => import("../pages/Access"));
 
 import Home from "../pages/Home";
 import Access from "../pages/Access";
 import Account from "../pages/Account";
 import Dashboard from "../pages/Dashboard";
+import NewDeck from "../pages/NewDeck";
 
+// using lazy to made loading page
 const Decks = lazy(() => import("../pages/Decks"));
 const Categories = lazy(() => import("../pages/Categories"));
 
 const routesConfig = [
   {
-    path: "/",
+    path: '/',
     element: <Home />,
     isPublic: true,
   },
   {
-    path: "/login",
-    element: <Access type="login" />,
+    path: '/login',
+    element: <Access type='login' />,
     isPublic: true,
   },
   {
-    path: "/register",
-    element: <Access type="register" />,
+    path: '/register',
+    element: <Access type='register' />,
     isPublic: true,
   },
   {
-    path: "/dashboard",
+    path: '/dashboard',
     element: <Dashboard/>,
     isPublic: true,
   },
   {
-    path: "/decks",
+    path: '/decks',
     element: <Decks />,
     isPublic: true,
   },
   {
-    path: "/categories",
+    path: '/categories',
     element: <Categories />,
     isPublic: true,
   },
   {
-    path: "/account",
+    path: '/account',
     element: <Account />,
+    isPublic: true,
+  },
+  {
+    path: '/new-deck',
+    element: <NewDeck />,
     isPublic: true,
   },
 ];
