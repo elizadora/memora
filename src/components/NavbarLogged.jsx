@@ -1,18 +1,22 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { DialogContext } from "../context/DialogContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function NavbarLogged() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { openDialog } = useContext(DialogContext);
+
+    const { singOut } = useContext(AuthContext);
     
 
     function handleLogout(){
         openDialog(
             "Sair",
             "Tem certeza que deseja sair?",
-            () => {
-                console.log("Usuário deslogado");
+            async () => {
+                await singOut();
+                window.location.href = "/";
             }
         );
     }

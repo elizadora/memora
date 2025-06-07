@@ -7,6 +7,7 @@ import AuthenticatedLayout from "../layouts/AuthenticatedLayout";
 import Dashboard from "../pages/Dashboard";
 import Account from "../pages/Account";
 import NewDeck from "../pages/NewDeck";
+import { PrivateRoute } from "./PrivateRoute";
 
 // Lazy loading the components to improve performance
 const Decks = lazy(() => import("../pages/Decks"));
@@ -19,7 +20,7 @@ export default function AppRoutes() {
                 <Route path="/" element={<Home/>} />
                 <Route path="/login" element={<Access type="login"/>} />
                 <Route path="/register" element={<Access type="register"/>} />
-                <Route path="/dashboard" element={<AuthenticatedLayout/>}>
+                <Route path="/dashboard" element={<PrivateRoute component={AuthenticatedLayout} />}>
                     <Route path="" element={<Dashboard/>} />
                     <Route path="decks" element={<Decks/>} />
                     <Route path="categories" element={<Categories/>} />

@@ -1,12 +1,44 @@
-import registerImage from '../assets/registerImage.svg';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import registerImage from '../assets/registerImage.svg';
+
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import { auth } from '../services/firebaseConfig';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
+    const [user, setUser] = useState({
+        email: "",
+        password: ""
+    });
+
     const navigate = useNavigate();
 
-    function handleLogin(event){
+    const { singIn } = useContext(AuthContext)
+
+    const handleLogin = async(event) => {
         event.preventDefault();
-        navigate('/dashboard');
+
+        if(!user.email.trim() || !user.password.trim()){
+            alert("Preencha todos os campos");
+            return;
+        }
+
+        try{
+            const result =  await signInWithEmailAndPassword(auth, user.email, user.password);
+            const userId = result.user.uid;
+            const token = await result.user.getIdToken();
+            
+            await singIn(userId, token);
+
+            console.log("Login realizado com sucesso");
+
+            navigate('/dashboard');
+        }catch(error){
+            console.log("eror");
+            return;
+        }
+        
     }
 
     return (
@@ -20,10 +52,10 @@ export default function Login() {
                     <p className="text-3xl font-roboto-slab">Acesse sua conta</p>
                     <p className="text-xl font-open-sans text-platium">Aprender nunca foi tão fácil</p>
                 </div>
-                <form className=" w-7/10 flex flex-col gap-6">
-                    <input className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="email" placeholder="Digite seu email" />
-                    <input className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="password" placeholder="Digite sua senha" />
-                    <button  onClick={handleLogin} className="bg-orange hover:opacity-95 text-oxford-blue p-2 mt-2 uppercase font-roboto-slab font-medium rounded-md cursor-pointer">entrar</button>
+                <form onSubmit={handleLogin} className=" w-7/10 flex flex-col gap-6">
+                    <input value={user.email}  onChange={(e) => setUser({...user, email: e.target.value})} className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="email" placeholder="Digite seu email" required/>
+                    <input value={user.password} onChange={(e) => setUser({...user, password: e.target.value})} className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="password" placeholder="Digite sua senha" required/>
+                    <button type="submit" className="bg-orange hover:opacity-95 text-oxford-blue p-2 mt-2 uppercase font-roboto-slab font-medium rounded-md cursor-pointer">entrar</button>
                 </form>
 
                 <p className="pt-4 font-open-sans pb-4">Não tem conta? <Link to="/register" className="text-orange">Cadastre-se</Link> </p>
