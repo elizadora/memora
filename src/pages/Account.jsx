@@ -1,12 +1,12 @@
 import { UserCircle } from "flowbite-react-icons/solid";
 import { useContext } from "react";
-import { ModalContext } from "../context/ModalContext";
+import { DialogContext } from "../context/DialogContext";
 
 export default function Account() {
-    const { openModal } = useContext(ModalContext);
+    const { openDialog } = useContext(DialogContext);
 
     function handleDelteAccount() {
-        openModal(
+        openDialog(
             "Apagar Conta",
             "Tem certeza que deseja apagar sua conta? Esta ação não pode ser desfeita.",
             () => {

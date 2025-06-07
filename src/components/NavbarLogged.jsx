@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { ModalContext } from "../context/ModalContext";
+import { DialogContext } from "../context/DialogContext";
 
 export default function NavbarLogged() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { openModal } = useContext(ModalContext);
+    const { openDialog } = useContext(DialogContext);
     
 
     function handleLogout(){
-        openModal(
+        openDialog(
             "Sair",
             "Tem certeza que deseja sair?",
             () => {
