@@ -2,8 +2,6 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import registerImage from '../assets/registerImage.svg';
 
-import {signInWithEmailAndPassword} from 'firebase/auth';
-import { auth } from '../services/firebaseConfig';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
@@ -14,31 +12,25 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const { singIn } = useContext(AuthContext)
+    const { signIn } = useContext(AuthContext)
 
-    const handleLogin = async(event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
 
-        if(!user.email.trim() || !user.password.trim()){
+        if (!user.email.trim() || !user.password.trim()) {
             alert("Preencha todos os campos");
             return;
         }
 
-        try{
-            const result =  await signInWithEmailAndPassword(auth, user.email, user.password);
-            const userId = result.user.uid;
-            const token = await result.user.getIdToken();
-            
-            await singIn(userId, token);
+        const success = await signIn(user.email, user.password);
 
+        if (success) {
             console.log("Login realizado com sucesso");
-
-            navigate('/dashboard');
-        }catch(error){
-            console.log("Erro ao realizar login:", error);
-            return;
+            navigate("/dashboard");
+        } else {
+            alert("Email ou senha incorretos");
         }
-        
+
     }
 
     return (
@@ -53,8 +45,8 @@ export default function Login() {
                     <p className="text-xl font-open-sans text-platium">Aprender nunca foi tão fácil</p>
                 </div>
                 <form onSubmit={handleLogin} className=" w-7/10 flex flex-col gap-6">
-                    <input value={user.email}  onChange={(e) => setUser({...user, email: e.target.value})} className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="email" placeholder="Digite seu email" required/>
-                    <input value={user.password} onChange={(e) => setUser({...user, password: e.target.value})} className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="password" placeholder="Digite sua senha" required/>
+                    <input value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="email" placeholder="Digite seu email" required />
+                    <input value={user.password} onChange={(e) => setUser({ ...user, password: e.target.value })} className="w-full bg-white-smoke text-gray-500 p-2 rounded-md" type="password" placeholder="Digite sua senha" required />
                     <button type="submit" className="bg-orange hover:opacity-95 text-oxford-blue p-2 mt-2 uppercase font-roboto-slab font-medium rounded-md cursor-pointer">entrar</button>
                 </form>
 

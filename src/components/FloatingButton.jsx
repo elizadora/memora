@@ -1,13 +1,25 @@
 import { Plus } from "flowbite-react-icons/outline";
 import { File, Tag } from "flowbite-react-icons/solid";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ModalContext } from "../context/ModalContext";
+import NewCategoryModal from "./NewCategoryModal";
 
 export default function FloatingButton({ open, setOpen }) {
+    const { openModal } = useContext(ModalContext);
+
     const navigate = useNavigate();
 
-    function handleNewDeck(event){
+    const handleNewDeck = (event) =>{
         event.preventDefault();
         navigate('new-deck')
+    }
+
+    const handleNewCategory = (event) => {
+        event.preventDefault();
+        openModal("Criar nova categoria", <NewCategoryModal/>, () => {
+            console.log("Categoria criada!");
+        });
     }
 
     return (
@@ -17,7 +29,7 @@ export default function FloatingButton({ open, setOpen }) {
                     <span>Criar Deck</span>
                     <File className="text-sm" />
                 </button>
-                <button className="cursor-pointer flex items-center gap-2 bg-orange text-oxford-blue px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90">
+                <button onClick={handleNewCategory} className="cursor-pointer flex items-center gap-2 bg-orange text-oxford-blue px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90">
                     <span>Criar Categoria</span>
                     <Tag className="text-sm" />
                 </button>

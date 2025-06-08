@@ -18,7 +18,7 @@ export default function Account() {
 
     const fecthUser = async () => {
         try {
-            const docRef = doc(db, "users", localStorage.getItem("id"));
+            const docRef = doc(db, "users", auth.currentUser.uid);
             const docData = await getDoc(docRef);
 
             if (docData.exists()) {

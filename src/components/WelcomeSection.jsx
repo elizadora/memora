@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import welcomeImage from '../assets/welcomeImage.svg';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../services/firebaseConfig';
+import { auth, db } from '../services/firebaseConfig';
 
 
 export default function WelcomeSection() {
@@ -9,7 +9,7 @@ export default function WelcomeSection() {
 
     const fetchUserName = async () => {
         try {
-            const docRef = doc(db, "users", localStorage.getItem("id"));
+            const docRef = doc(db, "users", auth.currentUser.uid);
             const docData = await getDoc(docRef);
 
             if (docData.exists()) {

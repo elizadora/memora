@@ -1,35 +1,62 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { auth } from "../services/firebaseConfig";
+
+import {signInWithEmailAndPassword} from 'firebase/auth';
+
+import { onAuthStateChanged } from "firebase/auth";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const [userAuth, setUserAuth] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const [userId, setUserId] = useState(localStorage.getItem("id"));
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+            if (firebaseUser) {
+                const token = await firebaseUser.getIdToken();
+                setUserAuth({
+                    uid: firebaseUser.uid,
+                    email: firebaseUser.email,
+                    token: token
+                });
+            } else {
+                setUserAuth(null);
+            }
+            setLoading(false);
+        });
 
+        return () => unsubscribe(); 
+    }, []);
 
-    const singIn = (id, token) => {
-        setUserId(id);
-        setToken(token);
+    const signIn = async (email, password) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-        localStorage.setItem("id", id);
-        localStorage.setItem("token", token);
+            return true;
+        } catch (error) {
+            console.error("Erro no login:", error);
+            return false;
+        }
+    };
 
-    }
+    const signOut = async () => {
+        try {
+            await auth.signOut();
 
-    const singOut = () => {
-        setUserId(null);
-        setToken(null);
-
-        localStorage.removeItem("id");
-        localStorage.removeItem("token");
-    }
-
+        } catch (error) {
+            console.error("Erro ao fazer logout:", error);
+        }
+    };
 
     return (
-        <AuthContext.Provider value={{ userId, token, singIn, singOut }}>
+        <AuthContext.Provider value={{ 
+            userAuth, 
+            loading,
+            signIn, 
+            signOut 
+        }}>
             {children}
         </AuthContext.Provider>
     );
-
-}
+};
