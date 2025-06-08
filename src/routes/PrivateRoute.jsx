@@ -5,5 +5,5 @@ import { Navigate } from "react-router-dom";
 export function PrivateRoute({component: Component}) {
     const {userId} = useContext(AuthContext);
 
-    return userId ? <Component /> : <Navigate to="/login" />;
+    return userId ? <Component /> : <Navigate to="/login" replace />;
 }

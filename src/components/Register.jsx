@@ -30,6 +30,7 @@ export default function Register() {
 
             await setDoc(doc(db, "users", result.user.uid), {
                 name: user.name,
+                email: user.email,
             });
 
             alert("Usuário cadastrado com sucesso!");

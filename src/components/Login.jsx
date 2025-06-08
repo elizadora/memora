@@ -35,7 +35,7 @@ export default function Login() {
 
             navigate('/dashboard');
         }catch(error){
-            console.log("eror");
+            console.log("Erro ao realizar login:", error);
             return;
         }
         
