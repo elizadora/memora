@@ -3,11 +3,20 @@ import { AuthContext } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 export function PrivateRoute({ component: Component }) {
-    const { userAuth, loading } = useContext(AuthContext);
+    const { userAuth, loading, logged } = useContext(AuthContext);
 
     if (loading) {
         return <p>Carregando sessão...</p>;
     }
 
-    return userAuth ? <Component /> : <Navigate to="/login" replace />;
+    if(!userAuth && logged) {
+        return <Navigate to="/" replace />;
+    }
+
+    if (logged) {
+        return <Navigate to="/login" replace />;
+    }
+
+
+    return <Component />;
 }

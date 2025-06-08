@@ -2,14 +2,13 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DialogContext } from "../context/DialogContext";
 import { AuthContext } from "../context/AuthContext";
+import { auth } from "../services/firebaseConfig";
 
 export default function NavbarLogged() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { openDialog } = useContext(DialogContext);
 
-    const navigate = useNavigate();
-
-    const { singOut } = useContext(AuthContext);
+    const { signOut } = useContext(AuthContext);
     
 
     function handleLogout(){
@@ -17,9 +16,8 @@ export default function NavbarLogged() {
             "Sair",
             "Tem certeza que deseja sair?",
             async () => {
-                await singOut();
-                
-                navigate("/", { replace: true });
+                await signOut();
+                window.location.replace("/");
             }
         );
     }

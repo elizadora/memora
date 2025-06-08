@@ -10,6 +10,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [userAuth, setUserAuth] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [logged, setLogged] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -20,6 +21,7 @@ export const AuthProvider = ({ children }) => {
                     email: firebaseUser.email,
                     token: token
                 });
+                setLogged(true);
             } else {
                 setUserAuth(null);
             }
@@ -31,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
     const signIn = async (email, password) => {
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
 
             return true;
         } catch (error) {
