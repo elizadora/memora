@@ -5,7 +5,7 @@ import { NewCardModal } from "../components/NewCardModal";
 import { useEffect, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { useContext } from "react";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, runTransaction, Transaction, where } from "firebase/firestore";
 import { auth, db } from "../services/firebaseConfig";
 import Card from "../components/Card";
 
@@ -59,54 +59,71 @@ export default function NewDeck() {
         event.preventDefault();
 
         try {
-            // create deck 
-            const deckRef = await addDoc(collection(db, "decks"), {
-                title: deck.title,
-                description: deck.description,
-                userId: auth.currentUser.uid
-            });
-
-            const deckIdNew = deckRef.id;
-
-            const categoriesRef = [];
-
-            // create categories
-            for (const category of selectedCategories) {
-                if (category.label == category.value) {
-                    const categoryRef = await addDoc(collection(db, "categories"), {
-                        name: category.label,
-                        userId: auth.currentUser.uid
-                    });
-
-                    categoriesRef.push({
-                        id: categoryRef.id,
-                        name: category.label
-                    });
-                } else {
-                    categoriesRef.push({
-                        id: category.value,
-                        name: category.label
-                    });
+            // run transaction for atomicity
+            await runTransaction(db, async (transaction) => {
+                // create deck
+                const deckRef = doc(collection(db, "decks"));
+                const deckData = {
+                    title: deck.title,
+                    description: deck.description,
+                    userId: auth.currentUser.uid
                 }
-            }
+
+                transaction.set(deckRef, deckData);
 
 
-            console.log(categoriesRef);
-            // add decks_categories
-            for (const category of categoriesRef) {
-                await addDoc(collection(db, "decks_categories"), {
-                    deckId: deckIdNew,
-                    categoryId: category.id
-                });
-            }
-            // reset form
-            setDeck({
-                title: "",
-                description: "",
-            });
+                // create new categories and get selected categories
+                const categoriesRef = [];
 
+                for (const category of selectedCategories) {
+                    if (category.label === category.value) {
+                        // new category
+                        const newCategoryRef = doc(collection(db, "categories"));
+                        const newCategoryData = {
+                            name: category.label,
+                            userId: auth.currentUser.uid
+                        };
+                        // add new category
+                        transaction.set(newCategoryRef, newCategoryData);
+
+                        // get ref 
+                        categoriesRef.push(newCategoryRef.id);
+
+                    } else {
+                        // existing category
+                        categoriesRef.push(category.value);
+                    }
+                }
+
+                // create relation deck_categories
+                for (const category of categoriesRef) {
+                    const deckCategoryRef = doc(collection(db, "decks_categories"));
+                    const deckCategoryData = {
+                        deckId: deckRef.id,
+                        categoryId: category
+                    }
+
+                    transaction.set(deckCategoryRef, deckCategoryData);
+                }
+
+                // add cards
+                for(const card of cards) {
+                    const newCardRef = doc(collection(db, "cards"));
+                    const newCardData = {
+                        question: card.question,
+                        answer: card.answer,
+                        deckId: deckRef.id
+                    }
+
+                    transaction.set(newCardRef, newCardData);
+                }
+            })
+
+            setDeck({ title: "", description: "" });
             setSelectedCategories([]);
+            setCards([]);
             alert("Deck criado com sucesso!");
+
         } catch (error) {
             console.error("Erro ao criar deck:", error);
             alert("Erro ao criar deck. Tente novamente.");
@@ -130,7 +147,8 @@ export default function NewDeck() {
                         <div onClick={handleNewCard} className="flex cursor-pointer items-center shadow-md border-rich-black border-2 justify-center bg-platium w-[262px] h-[309px] rounded-md">
                             <CirclePlus className="w-12 h-12 text-rich-black" />
                         </div>
-                        <div className=" w-full flex flex-wrap lg:justify-between items-center justify-center lg:gap-0 gap-4">
+
+                        <div className=" w-full flex flex-wrap lg:justify-start items-center justify-center lg:gap-x-20 gap-4">
                             {cards.length > 0 ? (
                                 cards.map((card, index) => (
                                     <Card key={index} question={card.question} answer={card.answer} onMode={() => setCards((prevCards) => prevCards.filter((item, indexCard) => index !== indexCard))} />
