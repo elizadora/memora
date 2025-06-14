@@ -3,7 +3,7 @@ import { File, Tag } from "flowbite-react-icons/solid";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ModalContext } from "../context/ModalContext";
-import NewCategoryModal from "./NewCategoryModal";
+import CategoryModal from "./CategoryModal";
 
 export default function FloatingButton({ open, setOpen }) {
     const { openModal } = useContext(ModalContext);
@@ -12,14 +12,18 @@ export default function FloatingButton({ open, setOpen }) {
 
     const handleNewDeck = (event) =>{
         event.preventDefault();
-        navigate('new-deck')
+        navigate('new-deck');
+
+        setOpen(false);
     }
 
     const handleNewCategory = (event) => {
         event.preventDefault();
-        openModal("Criar nova categoria", <NewCategoryModal/>, () => {
+        openModal("Criar nova categoria", <CategoryModal/>, () => {
             console.log("Categoria criada!");
         });
+
+        setOpen(false);
     }
 
     return (

@@ -1,19 +1,32 @@
 import { Edit, TrashBin } from "flowbite-react-icons/outline";
 import { useContext } from "react";
 import { ModalContext } from "../context/ModalContext";
-import NewCategoryModal from "./NewCategoryModal";
+import CategoryModal from "./CategoryModal";
+import { DialogContext } from "../context/DialogContext";
+import { useDeleteCategory } from "../hooks/useCategories";
 
 export default function CategoryCard({ category }) {
-
     const { openModal } = useContext(ModalContext);
+    const { openDialog } = useContext(DialogContext);
 
-    const handleEditCategory = (event) =>{
+    const { mutate: remove } = useDeleteCategory();
+
+    const handleEditCategory = (event) => {
         event.preventDefault();
-        openModal("Editar categoria", <NewCategoryModal id={category.id} />, () => {
-            console.log("Categoria editada!");
+        openModal("Editar categoria", <CategoryModal category={category} />)
+    }
+
+    const handleDeleteCategory = (event) => {
+        event.preventDefault();
+        openDialog(
+            "Atenção",
+            "Tem certeza que deseja excluir essa categoria?",
+            () => {
+                remove(category.id);
             }
         )
-        
+
+
     }
 
     return (
@@ -21,8 +34,8 @@ export default function CategoryCard({ category }) {
             <p className="">{category.name}</p>
             <div className="flex gap-4">
                 <p>{category.totalDecks}</p>
-                <button onClick={handleEditCategory} className="cursor-pointer hover:text-black"><Edit/></button>
-                <button className="cursor-pointer hover:text-black"><TrashBin/></button>
+                <button onClick={handleEditCategory} className="cursor-pointer hover:text-black"><Edit /></button>
+                <button onClick={handleDeleteCategory} className="cursor-pointer hover:text-black"><TrashBin /></button>
             </div>
         </div>
     )

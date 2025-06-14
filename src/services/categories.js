@@ -1,8 +1,8 @@
 import { db, auth } from "./firebaseConfig";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc, deleteDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 
 
-// aux function
+// aux function(count)
 const fetchTotalDecksByCategory = async (categoryId) => {
     try {
         const condition = query(collection(db, "decks_categories"), where("categoryId", "==", categoryId));
@@ -14,7 +14,8 @@ const fetchTotalDecksByCategory = async (categoryId) => {
     }
 };
 
-export const fetchCategories = async () => {
+// fetch all categories firestore
+export const getAll = async () => {
     try {
         const condition = query(collection(db, "categories"), where("userId", "==", auth.currentUser.uid));
         const querySnapshot = await getDocs(condition);
@@ -33,8 +34,27 @@ export const fetchCategories = async () => {
     }
 };
 
+// fetch category by id firestore
+export const getById = async (id) => {
+    try {
+        const docRef = doc(db, "categories", id);
+        const docSnap = await getDoc(docRef);
 
-export const addCategory = async (categoryName) => {
+        if (docSnap.exists()) {
+            return { id: docSnap.id, ...docSnap.data() };
+        } else {
+            console.error("Categoria não encontrada");
+            return null;
+        }
+    } catch (error) {
+        console.error("Erro ao buscar categoria:", error);
+        return null;
+    }
+};
+
+
+// add new category firestore
+export const add = async (categoryName) => {
     try {
         await addDoc(collection(db, "categories"), {
             name: categoryName,
@@ -43,6 +63,31 @@ export const addCategory = async (categoryName) => {
 
     } catch (error) {
         console.error("Erro ao criar categoria:", error);
+        return;
+    }
+}
+
+// update category firestore
+export const update = async (category) => {
+    try{
+        console.log("category", category);
+        await updateDoc(doc(db, "categories", category.id), {
+            name: category.name
+        });
+
+    }catch(error){
+        console.error("Erro ao atualizar categoria:", error);
+        return;
+    }
+}
+
+// remove category firestore
+export const remove = async (id) => {
+    try {
+        await deleteDoc(doc(db, "categories", id));
+    
+    } catch (error) {
+        console.error("Erro ao deletar categoria:", error);
         return;
     }
 }

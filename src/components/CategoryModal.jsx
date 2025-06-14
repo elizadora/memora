@@ -1,27 +1,44 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
-import { postCategory } from '../hooks/useCategories';
+import { usePostCategory, useUpdateCategory } from '../hooks/useCategories';
 
 
-export default function NewCategoryModal() {
+export default function CategoryModal({ category }) {
+
     const { closeModal } = useContext(ModalContext);
     const [categoryName, setCategoryName] = useState('');
 
-    const { mutate : add} = postCategory(() => closeModal());
+    const { mutate : add} = usePostCategory(() => closeModal());
+    const { mutate: update } = useUpdateCategory(() => closeModal());
 
     const handleCancel = () => {
         closeModal();
     }
 
-    const handleCreate = async (event) => {
+    const handleSave = async (event) => {
         event.preventDefault();
-        add(categoryName);
+        
+        if(category){
+            update({
+                id: category.id,
+                name: categoryName
+            });
+        }else{
+            add(categoryName);
+        }
 
-    }
+    }   
+
+
+    useEffect(() =>{
+        if(category){
+            setCategoryName(category.name);
+        }
+    },[category])
 
     return (
         <>
-            <form onSubmit={handleCreate} className="flex flex-col gap-4">
+            <form onSubmit={handleSave} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2 font-open-sans">
                     <label>Nome da Categoria</label>
                     <input type="text" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} className="w-full p-4 border-2 border-rich-black rounded-md text-md text-oxford-blue placeholder:text-oxford-blue/80" placeholder="Adicione o nome da nova categoria..." required />

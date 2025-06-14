@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
 import CategoryCard from "../components/CategoryCard";
-import { fetchAll } from "../hooks/useCategories"; 
+import { useFetchAll } from "../hooks/useCategories"; 
 
 export default function Categories() {
-    // load categories user
-    const { data, isLoading } = fetchAll();
+    const { data, isLoading } = useFetchAll();
 
     return (
         <>
