@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../services/firebaseConfig';
+import { postCategory } from '../hooks/useCategories';
+
 
 export default function NewCategoryModal() {
     const { closeModal } = useContext(ModalContext);
-
     const [categoryName, setCategoryName] = useState('');
+
+    const { mutate : add} = postCategory(() => closeModal());
 
     const handleCancel = () => {
         closeModal();
@@ -14,21 +15,7 @@ export default function NewCategoryModal() {
 
     const handleCreate = async (event) => {
         event.preventDefault();
-
-        try {
-            await addDoc(collection(db, "categories"), {
-                name: categoryName,
-                userId: auth.currentUser.uid,
-            });
-
-            alert("Categoria criada com sucesso!");
-            closeModal();
-
-        } catch (error) {
-            console.error("Erro ao criar categoria:", error);
-            alert("Erro ao criar categoria. Tente novamente.");
-            return;
-        }
+        add(categoryName);
 
     }
 
