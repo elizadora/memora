@@ -5,7 +5,7 @@ import { NewCardModal } from "../components/NewCardModal";
 import { useEffect, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { useContext } from "react";
-import { addDoc, collection, doc, getDocs, query, runTransaction, Transaction, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, runTransaction, where } from "firebase/firestore";
 import { auth, db } from "../services/firebaseConfig";
 import Card from "../components/Card";
 

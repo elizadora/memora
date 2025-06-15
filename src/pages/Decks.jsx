@@ -1,8 +1,11 @@
 import DeckCard from "../components/DeckCard";
 import { Search } from "flowbite-react-icons/outline";
+import { useFetchAll } from "../hooks/useDecks";
 
 
 export default function Decks() {
+    const {data, isLoading} = useFetchAll();
+
     return (
         <>
             <main className="flex justify-center gap-20 flex-wrap">
@@ -18,14 +21,19 @@ export default function Decks() {
                         <option>Categoria 1</option>
                     </select>
                 </div>
-                <div className="flex flex-wrap gap-10  items-center justify-evenly flex-col lg:flex-row mb-10">
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
-                    <DeckCard title="Deck1" category="Category 1" description="Lorem Ipsum has been the industry's standard dummy text ever since the  1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+                <div className="w-full flex flex-wrap gap-10  items-center justify-evenly flex-col lg:flex-row mb-10">
+                    {isLoading ? (
+                        <p className="text-oxford-blue text-xl">Carregando...</p>
+                    ) : data.length > 0 ? (
+                        data.map((deck) => (
+                            <DeckCard
+                                key={deck.id}
+                                deck={deck}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-oxford-blue text-xl">Nenhum deck cadastrado</p>
+                    )}
                 </div>
             </main>
         </>
