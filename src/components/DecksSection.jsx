@@ -18,9 +18,7 @@ export default function DecksSection() {
                         console.log(deck),
                         <DeckCard
                             key={deck.id}
-                            title={deck.title}
-                            description={deck.description}
-                            category= "teste"
+                            deck={deck}
                         />
                     ))
                 ) : (
