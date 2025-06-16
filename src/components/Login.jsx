@@ -6,8 +6,8 @@ import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
     const [user, setUser] = useState({
-        email: "elizadoradasilva2003@gmail.com",
-        password: "teste123"
+        email: "",
+        password: ""
     });
 
     const navigate = useNavigate();

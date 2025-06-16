@@ -1,10 +1,10 @@
 import DeckCard from "../components/DeckCard";
 import { Search } from "flowbite-react-icons/outline";
-import { useFetchAll } from "../hooks/useDecks";
+import { useFetchDecks } from "../hooks/useDecks";
 
 
 export default function Decks() {
-    const {data, isLoading} = useFetchAll();
+    const {data, isLoading} = useFetchDecks();
 
     return (
         <>

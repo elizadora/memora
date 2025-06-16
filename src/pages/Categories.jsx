@@ -1,8 +1,8 @@
 import CategoryCard from "../components/CategoryCard";
-import { useFetchAll } from "../hooks/useCategories"; 
+import { useFetchCategories } from "../hooks/useCategories"; 
 
 export default function Categories() {
-    const { data, isLoading } = useFetchAll();
+    const { data, isLoading } = useFetchCategories();
 
     return (
         <>

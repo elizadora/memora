@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
-import { usePostCategory, useUpdateCategory } from '../hooks/useCategories';
+import { useCreateCategory, useUpdateCategory } from '../hooks/useCategories';
 
 
 export default function CategoryModal({ category }) {
@@ -8,7 +8,7 @@ export default function CategoryModal({ category }) {
     const { closeModal } = useContext(ModalContext);
     const [categoryName, setCategoryName] = useState('');
 
-    const { mutate : add} = usePostCategory(() => closeModal());
+    const { mutate : add} = useCreateCategory(() => closeModal());
     const { mutate: update } = useUpdateCategory(() => closeModal());
 
     const handleCancel = () => {

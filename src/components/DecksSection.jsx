@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useFetchFirst } from "../hooks/useDecks";
+import { useFetchDecksFirst } from "../hooks/useDecks";
 import DeckCard from "./DeckCard";
 
 export default function DecksSection() {
-    const {data, isLoading} = useFetchFirst();
+    const {data, isLoading} = useFetchDecksFirst();
     console.log(data);
 
 

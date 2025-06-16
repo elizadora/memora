@@ -15,7 +15,7 @@ const fetchTotalDecksByCategory = async (categoryId) => {
 };
 
 // fetch all categories firestore
-export const getAll = async () => {
+export const getAllCategories = async () => {
     try {
         const condition = query(collection(db, "categories"), where("userId", "==", auth.currentUser.uid));
         const querySnapshot = await getDocs(condition);
@@ -35,7 +35,7 @@ export const getAll = async () => {
 };
 
 // fetch category by id firestore
-export const getById = async (id) => {
+export const getCategoryById = async (id) => {
     try {
         const docRef = doc(db, "categories", id);
         const docSnap = await getDoc(docRef);
@@ -54,12 +54,13 @@ export const getById = async (id) => {
 
 
 // add new category firestore
-export const add = async (categoryName) => {
+export const createCategory = async (categoryName) => {
     try {
         await addDoc(collection(db, "categories"), {
             name: categoryName,
             userId: auth.currentUser.uid,
         });
+
 
     } catch (error) {
         console.error("Erro ao criar categoria:", error);
@@ -68,7 +69,7 @@ export const add = async (categoryName) => {
 }
 
 // update category firestore
-export const update = async (category) => {
+export const updateCategory = async (category) => {
     try{
         console.log("category", category);
         await updateDoc(doc(db, "categories", category.id), {
@@ -82,7 +83,7 @@ export const update = async (category) => {
 }
 
 // remove category firestore
-export const remove = async (id) => {
+export const deleteCategory = async (id) => {
     try {
         await deleteDoc(doc(db, "categories", id));
     

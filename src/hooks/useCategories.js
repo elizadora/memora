@@ -1,19 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { add, remove, getAll, update } from "../services/categories"
+import { createCategory, deleteCategory, getAllCategories, getCategoryById, updateCategory} from "../services/categories";
 
 
-
-export function useFetchAll() {
+export function useFetchCategories() {
     return useQuery({
         queryKey: ['categories-list'],
-        queryFn: getAll,
+        queryFn: getAllCategories,
     })
 }
 
-export function useFetchCategoryById(id) {
+export function useFetchCategory(id) {
     return useQuery({
         queryKey: ['category', id],
-        queryFn: () => getById(id),
+        queryFn: () => getCategoryById(id),
         enabled: !!id,
     })
 }
@@ -21,11 +20,11 @@ export function useFetchCategoryById(id) {
 
 
 
-export function usePostCategory(callbackSuccess) {
+export function useCreateCategory(callbackSuccess) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: add,
+        mutationFn: createCategory,
         onSuccess: async() => {
            await queryClient.invalidateQueries({
                 queryKey: ['categories-list'],
@@ -42,7 +41,7 @@ export function useUpdateCategory(callbackSuccess){
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: update,
+        mutationFn: updateCategory,
         onSuccess: async() => {
             await queryClient.invalidateQueries({
                 queryKey: ['categories-list'],
@@ -61,7 +60,7 @@ export function useDeleteCategory() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: remove,
+        mutationFn: deleteCategory,
         onSuccess: async() => {
             await queryClient.invalidateQueries({
                 queryKey: ['categories-list'],
