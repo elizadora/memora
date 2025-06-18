@@ -86,3 +86,51 @@ export const createDeck = async({deck, categories, cards}) => {
         console.log(error)
     }
 }
+
+
+export const getDeckById = async(id) => {
+    try{
+        // deck
+        const deckRef = doc(db, "decks", id);
+        const deckSnap = await getDoc(deckRef);
+        
+        if(!deckSnap.exists()){
+            console.log("deck nao existe");
+        }
+
+        // categories
+        const categoriesCondition = query(collection(db, "decks_categories"), where("deckId", "==", id));
+
+        const categoriesSnap = await getDocs(categoriesCondition);
+
+        const categories = [];
+
+        if(!categoriesSnap.empty){
+            for(const category of categoriesSnap.docs){
+                const categoryId = category.data().categoryId;
+                const categoryRef = doc(db, "categories", categoryId);
+                const categorySnap = await getDoc(categoryRef);
+
+                if(categorySnap.exists()){
+                    categories.push({ id: categorySnap.id, ...categorySnap.data() });
+                }
+            }
+        }
+
+        // cards
+        const cardsCondition = query(collection(db, "cards"), where("deckId", "==", id));
+        const cardsSnap = await getDocs(cardsCondition);
+        const cards = cardsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        return {
+            id: deckSnap.id,
+            ...deckSnap.data(),
+            categories,
+            cards
+        };
+
+    }catch(error){
+        console.error(error);
+        return null;
+    }
+}

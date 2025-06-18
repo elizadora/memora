@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { createDeck, getDecks } from "../services/decks"
+import { createDeck, getDeckById, getDecks } from "../services/decks"
 
 export function useFetchDecks() {
     return useQuery({
@@ -27,5 +27,13 @@ export function useCreateDeck() {
 
             console.log("Certo");
         }
+    })
+}
+
+export function useFetchDeckById(id){
+    return useQuery({
+        queryKey: ['deck', id],
+        queryFn: () => getDeckById(id),
+        enabled: !!id, 
     })
 }

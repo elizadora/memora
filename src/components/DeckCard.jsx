@@ -1,18 +1,23 @@
 import { Edit, TrashBin } from "flowbite-react-icons/outline";
 import { useDecksCategories } from "../hooks/useDecksCategories";
+import { useNavigate } from "react-router-dom";
 
 export default function DeckCard({ deck }) {
 
     const { data, isLoading } = useDecksCategories(deck.id);
-    console.log("DeckCard data:", data);
+    const navigate = useNavigate();
+
+    const handleSeeDetails = () =>{
+        navigate(`/dashboard/details-deck/${deck.id}`);
+    }
 
     return (
-        <div className="bg-white-smoke lg:w-1/3 w-9/10 p-8 rounded-xl shadow-md lg:min-w-[515px] lg:min-h-[200px] cursor-pointer hover:transform hover:scale-105 transition-transform duration-300">
+        <div onClick={handleSeeDetails} className="bg-white-smoke lg:w-1/3 w-9/10 p-8 rounded-xl shadow-md lg:min-w-[515px] lg:min-h-[200px] cursor-pointer hover:transform hover:scale-105 transition-transform duration-300">
             <div className="flex justify-between">
                 <p className="font-roboto-slab text-rich-black text-2xl">{deck.title}</p>
                 <div className="flex gap-2">
-                    <button disabled className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90"><Edit /></button>
-                    <button disabled className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90"><TrashBin /></button>
+                    <button className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90"><Edit /></button>
+                    <button className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90"><TrashBin /></button>
                 </div>
             </div>
             <p className="text-rich-black font-open-sans text-[18px] mt-5">{deck.description}</p>

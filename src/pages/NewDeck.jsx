@@ -2,7 +2,7 @@ import CreatableSelect from "react-select/creatable";
 import { selectClassNamesCustom } from "../styles/createblaSelect";
 import { CirclePlus } from "flowbite-react-icons/outline";
 import { NewCardModal } from "../components/NewCardModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { useContext } from "react";
 import Card from "../components/Card";

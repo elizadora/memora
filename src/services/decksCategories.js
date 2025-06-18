@@ -6,8 +6,6 @@ export const getCategoriesDeck = async (deckID) => {
         const condition = query(collection(db, "decks_categories"), where("deckId", "==", deckID));
         const querySnapshot = await getDocs(condition);
 
-        console.log("deckID:", deckID);
-
         const categories = querySnapshot.docs.map(async (document) => {
             const categoryId = document.data().categoryId;
             const categoryRef = doc(collection(db, "categories"), categoryId);
@@ -18,7 +16,6 @@ export const getCategoriesDeck = async (deckID) => {
         );
 
         const categoriesData = await Promise.all(categories);
-        console.log("Categories fetched:", categoriesData);
         return categoriesData;
     
     }catch (error) {

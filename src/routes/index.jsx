@@ -8,6 +8,7 @@ import Dashboard from "../pages/Dashboard";
 import Account from "../pages/Account";
 import NewDeck from "../pages/NewDeck";
 import { PrivateRoute } from "./PrivateRoute";
+import DetailsDeck from "../pages/DetailsDeck";
 
 // Lazy loading the components to improve performance
 const Decks = lazy(() => import("../pages/Decks"));
@@ -26,6 +27,7 @@ export default function AppRoutes() {
                     <Route path="categories" element={<Categories/>} />
                     <Route path="account" element={<Account/>} />
                     <Route path="new-deck" element={<NewDeck/>} />
+                    <Route path="details-deck/:id" element={<DetailsDeck/>} />
                 </Route>
             </Routes>
         </Suspense>
