@@ -1,4 +1,5 @@
 import { createCategory } from "./categories";
+import { getCategoriesDeck } from "./decksCategories";
 import { db, auth } from "./firebaseConfig";
 import { collection, getDocs, query, where, addDoc, deleteDoc, doc, updateDoc, getDoc, limit as fbLimit, runTransaction } from "firebase/firestore";
 
@@ -23,9 +24,6 @@ export const getDecks = async (lim) => {
 
 
 export const createDeck = async({deck, categories, cards}) => {
-    console.log("Creating deck:", deck);
-    console.log("Selected categories:", categories);
-    console.log("Cards:", cards);
     try{
         await runTransaction(db, async(transaction) => {
             const deckRef = doc(collection(db, "decks"));
@@ -90,45 +88,17 @@ export const createDeck = async({deck, categories, cards}) => {
 
 export const getDeckById = async(id) => {
     try{
-        // deck
-        const deckRef = doc(db, "decks", id);
-        const deckSnap = await getDoc(deckRef);
+        // get deck
+        const docRef = doc(db, "decks", id);
         
-        if(!deckSnap.exists()){
-            console.log("deck nao existe");
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+            console.error("Deck not found");
+            return null;
         }
 
-        // categories
-        const categoriesCondition = query(collection(db, "decks_categories"), where("deckId", "==", id));
-
-        const categoriesSnap = await getDocs(categoriesCondition);
-
-        const categories = [];
-
-        if(!categoriesSnap.empty){
-            for(const category of categoriesSnap.docs){
-                const categoryId = category.data().categoryId;
-                const categoryRef = doc(db, "categories", categoryId);
-                const categorySnap = await getDoc(categoryRef);
-
-                if(categorySnap.exists()){
-                    categories.push({ id: categorySnap.id, ...categorySnap.data() });
-                }
-            }
-        }
-
-        // cards
-        const cardsCondition = query(collection(db, "cards"), where("deckId", "==", id));
-        const cardsSnap = await getDocs(cardsCondition);
-        const cards = cardsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        return {
-            id: deckSnap.id,
-            ...deckSnap.data(),
-            categories,
-            cards
-        };
-
+        return { id: docSnap.id, ...docSnap.data() };
+        
     }catch(error){
         console.error(error);
         return null;

@@ -21,7 +21,7 @@ export default function NewDeck() {
         category: []
     });
     
-    const {mutate: addDeck, isSuccess} = useCreateDeck();
+    const {mutate: addDeck} = useCreateDeck();
     const { data : categories } = useFetchCategories();
     const localCategories = categories?.map(category => ({
         value: category.id,
@@ -35,8 +35,7 @@ export default function NewDeck() {
         setSelectedCategories(selectedOptions);
     }
 
-    function handleNewCard() {
-        console.log(cards);
+    function handleCreateCard() {
         openModal("Criar novo card", <NewCardModal onConfirm={(card) => {
             setCards([...cards, card]);
         }} />, () => {
@@ -75,7 +74,7 @@ export default function NewDeck() {
                     </div>
                     {/* card */}
                     <div className="flex flex-col gap-4 justify-center items-center lg:items-start">
-                        <div onClick={handleNewCard} className="flex cursor-pointer items-center shadow-md border-rich-black border-2 justify-center bg-platium w-[262px] h-[309px] rounded-md">
+                        <div onClick={handleCreateCard} className="flex cursor-pointer items-center shadow-md border-rich-black border-2 justify-center bg-platium w-[262px] h-[309px] rounded-md">
                             <CirclePlus className="w-12 h-12 text-rich-black" />
                         </div>
 

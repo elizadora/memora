@@ -64,7 +64,6 @@ export const createCategory = async (categoryName) => {
 
     } catch (error) {
         console.error("Erro ao criar categoria:", error);
-        return;
     }
 }
 
