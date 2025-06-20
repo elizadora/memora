@@ -23,9 +23,9 @@ export const getDecks = async (lim) => {
 }
 
 
-export const createDeck = async({deck, categories, cards}) => {
-    try{
-        await runTransaction(db, async(transaction) => {
+export const createDeck = async ({ deck, categories, cards }) => {
+    try {
+        await runTransaction(db, async (transaction) => {
             const deckRef = doc(collection(db, "decks"));
             const deckData = {
                 title: deck.title,
@@ -38,8 +38,8 @@ export const createDeck = async({deck, categories, cards}) => {
             const categoriesRef = [];
 
             // categories
-            for(const category of categories){
-                if(category.label === category.value){
+            for (const category of categories) {
+                if (category.label === category.value) {
                     // new category
                     const categoryRef = doc(collection(db, "categories"));
                     const categoryData = {
@@ -49,12 +49,12 @@ export const createDeck = async({deck, categories, cards}) => {
 
                     transaction.set(categoryRef, categoryData);
                     categoriesRef.push(categoryRef.id);
-                
-                }else{
-                   categoriesRef.push(category.value);
+
+                } else {
+                    categoriesRef.push(category.value);
                 }
             }
-            
+
             // decks_categories
             for (const categoryId of categoriesRef) {
                 const deckCategoryRef = doc(collection(db, "decks_categories"));
@@ -67,7 +67,7 @@ export const createDeck = async({deck, categories, cards}) => {
             }
 
             // cards
-            for(const card of cards){
+            for (const card of cards) {
                 const cardRef = doc(collection(db, "cards"));
                 const cardData = {
                     question: card.question,
@@ -80,17 +80,45 @@ export const createDeck = async({deck, categories, cards}) => {
 
         })
 
-    }catch(error){
-        console.log(error)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const deleteDeck = async (deckId) => {
+    try {
+        await runTransaction(db, async (transaction) => {
+            // delete deck
+            const deckRef = doc(db, "decks", deckId);
+            transaction.delete(deckRef);
+            
+            // delete categories
+            const categoriesCondition = query(collection(db, "decks_categories"), where("deckId", "==", deckId));
+            const categoriesSnapshot = await getDocs(categoriesCondition);
+            for (const category of categoriesSnapshot.docs) {
+                transaction.delete(doc(db, "decks_categories", category.id));
+            }
+
+            // delete cards
+            const cardsCondition = query(collection(db, "cards"), where("deckId", "==", deckId));
+            const cardsSnapshot = await getDocs(cardsCondition);
+            for (const card of cardsSnapshot.docs) {
+                transaction.delete(doc(db, "cards", card.id));
+            }
+        });
+
+
+    } catch (error) {
+        console.error(error);
     }
 }
 
 
-export const getDeckById = async(id) => {
-    try{
+export const getDeckById = async (id) => {
+    try {
         // get deck
         const docRef = doc(db, "decks", id);
-        
+
         const docSnap = await getDoc(docRef);
         if (!docSnap.exists()) {
             console.error("Deck not found");
@@ -98,8 +126,8 @@ export const getDeckById = async(id) => {
         }
 
         return { id: docSnap.id, ...docSnap.data() };
-        
-    }catch(error){
+
+    } catch (error) {
         console.error(error);
         return null;
     }

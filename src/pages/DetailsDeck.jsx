@@ -49,8 +49,8 @@ export default function DetailsDeck() {
                                     <p className="text-rich-black text-lg">Nenhuma categoria associada a este deck.</p>
                                 )}
                             </div>
-                            <div className="flex flex-row justify-end">
-                                <button className="justify-self-end bg-rich-black text-white px-4 py-2 rounded-md hover:bg-dark-blue transition-colors ml-4">
+                            <div className="flex justify-start border-t border-oxford-blue/20 pt-4">
+                                <button className="bg-rich-black text-white px-4 py-2 rounded-md hover:bg-dark-blue transition-colors">
                                     Estudar Deck
                                 </button>
                             </div>

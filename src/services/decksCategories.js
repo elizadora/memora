@@ -1,9 +1,9 @@
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
 import { db } from "./firebaseConfig"
 
-export const getCategoriesDeck = async (deckID) => {
+export const getCategoriesDeck = async (deckId) => {
     try{
-        const condition = query(collection(db, "decks_categories"), where("deckId", "==", deckID));
+        const condition = query(collection(db, "decks_categories"), where("deckId", "==", deckId));
         const querySnapshot = await getDocs(condition);
 
         const categories = querySnapshot.docs.map(async (document) => {

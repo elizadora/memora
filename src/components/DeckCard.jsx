@@ -1,14 +1,35 @@
 import { Edit, TrashBin } from "flowbite-react-icons/outline";
 import { useDecksCategories } from "../hooks/useDecksCategories";
 import { useNavigate } from "react-router-dom";
+import { useDeleteDeck } from "../hooks/useDecks";
+import { useContext } from "react";
+import { DialogContext } from "../context/DialogContext";
 
 export default function DeckCard({ deck }) {
 
     const { data, isLoading } = useDecksCategories(deck.id);
+    const {mutate: deleteDeck } = useDeleteDeck();
+    
     const navigate = useNavigate();
+    const {openDialog} = useContext(DialogContext);
 
     const handleSeeDetails = () =>{
         navigate(`/dashboard/details-deck/${deck.id}`);
+    }
+
+    const handleDeleteDeck = (event) =>{
+        event.stopPropagation();
+        openDialog(
+            "Excluir Deck",
+            "Tem certeza que deseja excluir este deck? Esta ação não pode ser desfeita.",
+            async () => {
+                try {
+                    await deleteDeck(deck.id);
+                } catch (error) {
+                    console.error("Erro ao excluir o deck:", error);
+                }
+            }
+        );
     }
 
     return (
@@ -16,8 +37,8 @@ export default function DeckCard({ deck }) {
             <div className="flex justify-between">
                 <p className="font-roboto-slab text-rich-black text-2xl">{deck.title}</p>
                 <div className="flex gap-2">
-                    <button className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90"><Edit /></button>
-                    <button className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90"><TrashBin /></button>
+                    <button className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90 hover:cursor-pointer"><Edit /></button>
+                    <button onClick={(e) => handleDeleteDeck(e)}  className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90 hover:cursor-pointer"><TrashBin /></button>
                 </div>
             </div>
             <p className="text-rich-black font-open-sans text-[18px] mt-5">{deck.description}</p>
