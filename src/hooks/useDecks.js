@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { createDeck, deleteDeck, getDeckById, getDecks } from "../services/decks"
+import { createDeck, deleteDeck, getDeckById, getDecks, updateDeck } from "../services/decks"
 import { getCategoriesDeck } from "../services/decksCategories";
 import { getCardsByDeckId } from "../services/cards";
 
@@ -38,6 +38,18 @@ export function useDeleteDeck() {
             await queryClient.invalidateQueries({
                 queryKey: ['decks-list'],
             });
+        }
+    })
+}
+
+export function useUpdateDeck(id){
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: updateDeck,
+        onSuccess: async () =>{
+            await queryClient.invalidateQueries({
+                queryKey: ['deck', id]
+            })
         }
     })
 }

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteDeck } from "../hooks/useDecks";
 import { useContext } from "react";
 import { DialogContext } from "../context/DialogContext";
+import { ModalContext } from "../context/ModalContext";
+import DeckModal from "./DeckModal";
 
 export default function DeckCard({ deck }) {
 
@@ -12,6 +14,7 @@ export default function DeckCard({ deck }) {
     
     const navigate = useNavigate();
     const {openDialog} = useContext(DialogContext);
+    const {openModal} = useContext(ModalContext);
 
     const handleSeeDetails = () =>{
         navigate(`/dashboard/details-deck/${deck.id}`);
@@ -32,12 +35,22 @@ export default function DeckCard({ deck }) {
         );
     }
 
+    const handleEditDeck = (event) => {
+        event.stopPropagation();
+        openModal("Editar Deck", <DeckModal deck={deck}/> , () => {
+            console.log("Deck editado!");
+        },);
+    }
+
+   
+
+
     return (
         <div onClick={handleSeeDetails} className="bg-white-smoke lg:w-1/3 w-9/10 p-8 rounded-xl shadow-md lg:min-w-[515px] lg:min-h-[200px] cursor-pointer hover:transform hover:scale-105 transition-transform duration-300">
             <div className="flex justify-between">
                 <p className="font-roboto-slab text-rich-black text-2xl">{deck.title}</p>
                 <div className="flex gap-2">
-                    <button className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90 hover:cursor-pointer"><Edit /></button>
+                    <button onClick={(e) => handleEditDeck(e)} className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90 hover:cursor-pointer"><Edit /></button>
                     <button onClick={(e) => handleDeleteDeck(e)}  className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90 hover:cursor-pointer"><TrashBin /></button>
                 </div>
             </div>

@@ -9,7 +9,7 @@ export const getCardsByDeckId = async(deckId) =>{
         return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     }catch(error) {
-        console.error("Erro ao buscar cartões do baralho:", error);
+        console.error("Erro ao buscar card do deck:", error);
         throw error;
     }
 }
@@ -23,6 +23,6 @@ export const createCardById = async(deckId, card) => {
             answer: card.answer,
         })
     }catch(error) {
-        console.error("Erro ao criar cartão:", error);
+        console.error("Erro ao criar card:", error);
     }
 }

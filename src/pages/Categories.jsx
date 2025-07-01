@@ -1,5 +1,6 @@
+import { Search } from "flowbite-react-icons/outline";
 import CategoryCard from "../components/CategoryCard";
-import { useFetchCategories } from "../hooks/useCategories"; 
+import { useFetchCategories } from "../hooks/useCategories";
 
 export default function Categories() {
     const { data, isLoading } = useFetchCategories();
@@ -7,21 +8,12 @@ export default function Categories() {
     return (
         <>
             <main className="flex justify-center flex-wrap gap-30">
-                {isLoading ? (
-                    <p className="text-oxford-blue text-xl">Carregando...</p>
-                ) : (
-                    <select className="bg-white-smoke text-oxford-blue lg:w-xl w-7/10 float-end py-2 px-3 mt-5 rounded-3xl">
-                        {data.length > 0 ? (
-                            data.map(category => (
-                                <option key={category.id} value={category.id}>
-                                    {category.name}
-                                </option>
-                            ))
-                        ) : (
-                            <option disabled>Nenhuma categoria cadastrada</option>
-                        )}
-                    </select>
-                )}
+                <div className="relative">
+                    <input type="text" className="pl-10 py-2 w-sm border-2 border-gray-400 lg:w-2xl rounded-3xl bg-white-smoke" placeholder="Ex: Literatura" />
+                    <div className="absolute inset-y-0 right-0 pr-3  flex items-center pointer-events-none">
+                        <Search className="text-oxford-blue" />
+                    </div>
+                </div>
                 <div className="flex flex-wrap gap-10 items-center justify-evenly flex-col lg:flex-row mb-10 w-full">
                     {isLoading ? (
                         <p className="text-oxford-blue text-xl">Carregando categorias...</p>

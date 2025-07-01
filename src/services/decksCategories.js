@@ -20,6 +20,7 @@ export const getCategoriesDeck = async (deckId) => {
     
     }catch (error) {
         console.error("Erro ao buscar categorias do deck:", error);
-        throw error;
     }
 }
+
+// TODO : edit deck categories

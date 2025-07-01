@@ -1,23 +1,48 @@
-import { useParams } from "react-router-dom";
-import { useDeckData } from "../hooks/useDecks";
-import { CirclePlus, Edit, TrashBin } from "flowbite-react-icons/outline";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDeckData, useDeleteDeck } from "../hooks/useDecks";
+import { Check, CirclePlus, Edit, TrashBin } from "flowbite-react-icons/outline";
 import Card from "../components/Card";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { NewCardModal } from "../components/NewCardModal";
 import { useCreateCard } from "../hooks/useCards";
+import { DialogContext } from "../context/DialogContext";
+
 
 export default function DetailsDeck() {
     const { id } = useParams();
+    const [editMode, setEditMode] = useState(false);
+
     const { openModal } = useContext(ModalContext);
+    const { openDialog } = useContext(DialogContext);
+
+    const { mutate: deleteDeck } = useDeleteDeck();
+    const { mutate: addCard } = useCreateCard(id);
 
     const { deck, cards, categories, isLoading } = useDeckData(id);
-    const { mutate: addCard } = useCreateCard(id);
+    const navigate = useNavigate();
 
     const handleCreateCard = () => {
         openModal("Criar novo card", <NewCardModal onConfirm={(card) => addCard({ deckId: id, card })} />, () => {
             console.log("Card criado!");
         });
+    }
+
+    const handleDeleteDeck = (event) => {
+        event.stopPropagation();
+        openDialog(
+            "Excluir Deck",
+            "Tem certeza que deseja excluir este deck? Esta ação não pode ser desfeita.",
+            async () => {
+                try {
+                    await deleteDeck(deck.id);
+                    navigate("/dashboard/decks");
+
+                } catch (error) {
+                    console.error("Erro ao excluir o deck:", error);
+                }
+            }
+        );
     }
 
     return (
@@ -32,8 +57,15 @@ export default function DetailsDeck() {
                         <div className="flex justify-between items-center">
                             <h2 className="text-oxford-blue text-4xl">{deck.title}</h2>
                             <div className="flex gap-2">
-                                <button className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90"><Edit /></button>
-                                <button className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90"><TrashBin /></button>
+
+                                {editMode ?
+
+                                    <button onClick={() => setEditMode(false)} className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90 cursor-pointer"><Check /></button>
+                                    :
+                                    <button onClick={() => setEditMode(true)} className="rounded-xl bg-oxford-blue text-white-smoke px-3 py-2 hover:bg-oxford-blue/90 cursor-pointer"><Edit /></button>
+
+                                }
+                                <button onClick={(e) => handleDeleteDeck(e)} className="rounded-xl bg-crimson text-white-smoke px-3 py-2 hover:bg-crimson/90 cursor-pointer"><TrashBin /></button>
                             </div>
                         </div>
                         <p className="text-oxford-blue text-2xl">{deck.description}</p>

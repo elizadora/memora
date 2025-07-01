@@ -70,14 +70,12 @@ export const createCategory = async (categoryName) => {
 // update category firestore
 export const updateCategory = async (category) => {
     try{
-        console.log("category", category);
         await updateDoc(doc(db, "categories", category.id), {
             name: category.name
         });
 
     }catch(error){
         console.error("Erro ao atualizar categoria:", error);
-        return;
     }
 }
 
@@ -88,6 +86,5 @@ export const deleteCategory = async (id) => {
     
     } catch (error) {
         console.error("Erro ao deletar categoria:", error);
-        return;
     }
 }

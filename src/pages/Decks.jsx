@@ -1,10 +1,12 @@
 import DeckCard from "../components/DeckCard";
 import { Search } from "flowbite-react-icons/outline";
 import { useFetchDecks } from "../hooks/useDecks";
+import { useFetchCategories } from "../hooks/useCategories";
 
 
 export default function Decks() {
-    const {data, isLoading} = useFetchDecks();
+    const { data, isLoading } = useFetchDecks();
+    const { data: categories, isLoading: isLoadingCategories } = useFetchCategories();
 
     return (
         <>
@@ -16,10 +18,21 @@ export default function Decks() {
                             <Search className="text-oxford-blue" />
                         </div>
                     </div>
-
-                    <select className="bg-white-smoke text-oxford-blue float-end py-2 px-3 mt-5 rounded-3xl">
-                        <option>Categoria 1</option>
-                    </select>
+                    {isLoadingCategories ? (
+                        <p className="text-oxford-blue text-xl">Carregando...</p>
+                    ) : (
+                        <select className="bg-white-smoke text-oxford-blue float-end py-2 px-3 mt-5 rounded-3xl">
+                            {categories.length > 0 ? (
+                                categories.map(category => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))
+                            ) : (
+                                <option disabled>Nenhuma categoria cadastrada</option>
+                            )}
+                        </select>
+                    )}
                 </div>
                 <div className="w-full flex flex-wrap gap-10  items-center justify-evenly flex-col lg:flex-row mb-10">
                     {isLoading ? (

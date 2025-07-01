@@ -18,7 +18,7 @@ export const getDecks = async (lim) => {
 
         return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error(error);
+        console.error("Error ao puxar decks", error);
     }
 }
 
@@ -81,54 +81,68 @@ export const createDeck = async ({ deck, categories, cards }) => {
         })
 
     } catch (error) {
-        console.error(error)
+        console.error("Error ao criar deck", error)
     }
 }
 
-export const deleteDeck = async (deckId) => {
+export const updateDeck = async (deck) => {
     try {
-        await runTransaction(db, async (transaction) => {
-            // delete deck
-            const deckRef = doc(db, "decks", deckId);
-            transaction.delete(deckRef);
-            
-            // delete categories
-            const categoriesCondition = query(collection(db, "decks_categories"), where("deckId", "==", deckId));
-            const categoriesSnapshot = await getDocs(categoriesCondition);
-            for (const category of categoriesSnapshot.docs) {
-                transaction.delete(doc(db, "decks_categories", category.id));
-            }
+        await updateDoc(doc(db, "decks", deck.id), {
+            title: deck.title,
+            description: deck.description,
+            userId: auth.currentUser.uid
 
-            // delete cards
-            const cardsCondition = query(collection(db, "cards"), where("deckId", "==", deckId));
-            const cardsSnapshot = await getDocs(cardsCondition);
-            for (const card of cardsSnapshot.docs) {
-                transaction.delete(doc(db, "cards", card.id));
-            }
-        });
+        })
 
-
-    } catch (error) {
-        console.error(error);
+    }catch(error){
+        console.error("Error ao atualizar deck", error);
     }
 }
 
+export const deleteDeck = async (id) => {
+        try {
+            await runTransaction(db, async (transaction) => {
+                // delete deck
+                const deckRef = doc(db, "decks", id);
+                transaction.delete(deckRef);
 
-export const getDeckById = async (id) => {
-    try {
-        // get deck
-        const docRef = doc(db, "decks", id);
+                // delete categories
+                const categoriesCondition = query(collection(db, "decks_categories"), where("deckId", "==", id));
+                const categoriesSnapshot = await getDocs(categoriesCondition);
+                for (const category of categoriesSnapshot.docs) {
+                    transaction.delete(doc(db, "decks_categories", category.id));
+                }
 
-        const docSnap = await getDoc(docRef);
-        if (!docSnap.exists()) {
-            console.error("Deck not found");
+                // delete cards
+                const cardsCondition = query(collection(db, "cards"), where("deckId", "==", id));
+                const cardsSnapshot = await getDocs(cardsCondition);
+                for (const card of cardsSnapshot.docs) {
+                    transaction.delete(doc(db, "cards", card.id));
+                }
+            });
+
+
+        } catch (error) {
+            console.error("Error ao deketar deck", error);
+        }
+    }
+
+
+    export const getDeckById = async (id) => {
+        try {
+            // get deck
+            const docRef = doc(db, "decks", id);
+
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) {
+                console.error("Deck not found");
+                return null;
+            }
+
+            return { id: docSnap.id, ...docSnap.data() };
+
+        } catch (error) {
+            console.error("Error ao puxar detalhes do deck", error);
             return null;
         }
-
-        return { id: docSnap.id, ...docSnap.data() };
-
-    } catch (error) {
-        console.error(error);
-        return null;
     }
-}
